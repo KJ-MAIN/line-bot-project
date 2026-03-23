@@ -1,3 +1,5 @@
+import os
+import json
 import gspread
 import time
 from google.oauth2.service_account import Credentials
@@ -10,9 +12,11 @@ SCOPES = [
     "https://www.googleapis.com/auth/drive"
 ]
 
+# 🔥 โหลด JSON จาก ENV
+service_account_info = json.loads(os.getenv("SERVICE_ACCOUNT_JSON"))
 
-creds = Credentials.from_service_account_file(
-    config.SERVICE_ACCOUNT_FILE,
+creds = Credentials.from_service_account_info(
+    service_account_info,
     scopes=SCOPES
 )
 
@@ -20,15 +24,16 @@ gc = gspread.authorize(creds)
 
 
 # ===== worksheets =====
-
 games_ws = gc.open(config.SPREADSHEET_NAME).worksheet("games")
+
 
 # ===== CACHE =====
 _games_cache = None
 _cache_time = 0
 CACHE_TTL = 300
-# ===== functions =====
 
+
+# ===== functions =====
 def get_games():
     global _games_cache, _cache_time
 
@@ -45,7 +50,6 @@ def get_games():
         except Exception as e:
             print("❌ โหลด Google Sheet ไม่ได้:", e)
 
-            # ใช้ cache เก่าแทน
             if _games_cache:
                 print("⚠️ ใช้ cache เดิมแทน")
                 return _games_cache
