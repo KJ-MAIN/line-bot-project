@@ -1,0 +1,26 @@
+🚀 ✅ START LINE BOT (LOCAL + NGROK)
+🟢 STEP 1: เข้าโปรเจค + เปิด venv
+cd C:\Users\SP\Desktop\line-bot-project
+venv\Scripts\activate
+🟢 STEP 2: รันบอท
+python bot.py
+
+👉 ต้องเห็นแบบนี้:
+
+LINE BOT STARTED
+Running on http://127.0.0.1:5000
+🔵 STEP 3: เปิด ngrok (อีกหน้าต่าง CMD)
+cd C:\Users\SP\Desktop\line-bot-project
+ngrok.exe http 5000
+🔵 STEP 4: copy Webhook URL
+
+จะได้แบบนี้:
+
+https://xxxxx.ngrok-free.dev
+🟡 STEP 5: เอาไปใส่ LINE
+https://xxxxx.ngrok-free.dev/callback
+🟡 STEP 6: กด Verify
+
+👉 ต้องขึ้น:
+
+Success ✅

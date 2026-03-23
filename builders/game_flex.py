@@ -1,0 +1,248 @@
+import random
+from datetime import datetime
+
+# ===== memory stats =====
+GAME_STATS = {}
+
+PLAY_BUTTON_IMAGES = [
+    "https://res.cloudinary.com/dn9xnmoqx/image/upload/v1773603242/paly1.png",
+    "https://res.cloudinary.com/dn9xnmoqx/image/upload/v1773603242/paly2.png",
+    "https://res.cloudinary.com/dn9xnmoqx/image/upload/v1773603241/paly3.png",
+    "https://res.cloudinary.com/dn9xnmoqx/image/upload/v1773603241/play4.png",
+    "https://res.cloudinary.com/dn9xnmoqx/image/upload/v1773608200/play5.png"
+]
+
+
+# =========================
+# 🔹 1. LOGIC LAYER (stats)
+# =========================
+def _get_game_stats(game_id):
+    today = datetime.now().strftime("%Y-%m-%d")
+
+    if game_id not in GAME_STATS or GAME_STATS[game_id]["date"] != today:
+        GAME_STATS[game_id] = {
+            "withdraw": random.randint(20000, 60000),
+            "players": random.randint(1000, 3000),
+            "date": today
+        }
+
+    # เพิ่มค่า
+    GAME_STATS[game_id]["players"] += random.randint(30, 120)
+    GAME_STATS[game_id]["withdraw"] += random.randint(200, 20000)
+
+    return GAME_STATS[game_id]
+
+
+# =========================
+# 🔹 2. FORMAT LAYER
+# =========================
+def _format_game_data(game, stats):
+    rtp_raw = str(game.get("rtp", "0")).replace("%", "")
+
+    try:
+        rtp_num = float(rtp_raw)
+    except:
+        rtp_num = 0
+
+    return {
+        "name": game.get("name", "Unknown Game"),
+        "desc": game.get("description", "-"),
+        "bg": game.get("bg_url"),
+        "icon": game.get("icon_url"),
+        "volatility": game.get("volatility", "HIGH"),
+        "maxwin": game.get("maxwin", "5000X"),
+        "rtp": rtp_raw,
+        "bar": f"{rtp_num}%",
+        "withdraw_text": f"💰{stats['withdraw']:,}฿",
+        "players_text": f"{stats['players']:,} คน"
+    }
+
+
+# =========================
+# 🔹 3. UI LAYER
+# =========================
+def _build_ui(data, play_button):
+    return {
+        "type": "bubble",
+        "size": "mega",
+
+        "hero": {
+            "type": "image",
+            "url": data["bg"],
+            "size": "full",
+            "aspectRatio": "20:13",
+            "aspectMode": "cover"
+        },
+
+        "body": {
+            "type": "box",
+            "layout": "vertical",
+            "spacing": "md",
+            "paddingAll": "5px",
+
+            "background": {
+                "type": "linearGradient",
+                "angle": "30deg",
+                "startColor": "#0F2027",
+                "endColor": "#0F2027",
+                "centerColor": "#203A43"
+            },
+
+            "contents": [
+
+                # 🔹 icon + name
+                {
+                    "type": "box",
+                    "layout": "horizontal",
+                    "spacing": "10px",
+                    "contents": [
+                        {
+                            "type": "image",
+                            "url": data["icon"],
+                            "aspectRatio": "1:1",
+                            "size": "xs",
+                            "flex": 0
+                        },
+                        {
+                            "type": "box",
+                            "layout": "vertical",
+                            "flex": 1,
+                            "backgroundColor": "#FFFFFF",
+                            "borderWidth": "2px",
+                            "borderColor": "#000000",
+                            "contents": [
+                                {
+                                    "type": "text",
+                                    "text": data["name"],
+                                    "weight": "bold",
+                                    "size": "md",
+                                    "align": "center",
+                                    "color": "#1C1C1C",
+                                    "wrap": True
+                                },
+                                {
+                                    "type": "text",
+                                    "text": data["desc"],
+                                    "size": "xxs",
+                                    "wrap": True,
+                                    "align": "center",
+                                    "color": "#1C1C1C"
+                                }
+                            ]
+                        }
+                    ]
+                },
+
+                # 🔹 stats
+                {
+                    "type": "box",
+                    "layout": "horizontal",
+                    "spacing": "5px",
+                    "contents": [
+                        _badge(data["volatility"], "ความผันผวน"),
+                        _badge(data["maxwin"], "รางวัลสูงสุด"),
+                        _badge(data["withdraw_text"], "ถอนล่าสุด"),
+                        _badge(data["players_text"], "ผู้เล่น")
+                    ]
+                },
+
+                # 🔹 RTP bar
+                {
+                    "type": "box",
+                    "layout": "vertical",
+                    "borderWidth": "2px",
+                    "borderColor": "#000000",
+                    "cornerRadius": "10px",
+                    "contents": [
+                        {
+                            "type": "box",
+                            "layout": "vertical",
+                            "backgroundColor": "#FFFFFF",
+                            "height": "16px",
+                            "cornerRadius": "10px",
+                            "contents": [
+                                {
+                                    "type": "box",
+                                    "layout": "vertical",
+                                    "width": data["bar"],
+                                    "height": "16px",
+                                    "backgroundColor": "#00FF00",
+                                    "contents": []   # 🔥 สำคัญมาก
+                                },
+                                {
+                                    "type": "text",
+                                    "text": f"RTP {data['rtp']}%",
+                                    "size": "xs",
+                                    "weight": "bold",
+                                    "align": "center",
+                                    "gravity": "center",
+                                    "color": "#000000",
+                                    "offsetTop": "-16px"
+                                }
+                            ]
+                        }
+                    ]
+                },
+
+                # 🔹 play button
+                {
+                    "type": "box",
+                    "layout": "vertical",
+                    "backgroundColor": "#CD0000",
+                    "cornerRadius": "20px",
+                    "action": {
+                        "type": "uri",
+                        "uri": "https://member.nupv.life/th"
+                    },
+                    "contents": [
+                        {
+                            "type": "image",
+                            "url": play_button,
+                            "size": "full",
+                            "aspectRatio": "4.3:1"
+                        }
+                    ]
+                }
+
+            ]
+        }
+    }
+
+
+def _badge(value, label):
+    return {
+        "type": "box",
+        "layout": "vertical",
+        "backgroundColor": "#A52A2A",
+        "borderWidth": "2px",
+        "borderColor": "#000000",
+        "contents": [
+            {
+                "type": "text",
+                "text": value,
+                "size": "xxs",
+                "weight": "bold",
+                "align": "center",
+                "color": "#FFFFFF"
+            },
+            {
+                "type": "text",
+                "text": label,
+                "size": "10px",
+                "align": "center",
+                "color": "#FFFFFF"
+            }
+        ]
+    }
+
+
+# =========================
+# 🔹 4. PUBLIC FUNCTION
+# =========================
+def build_game_bubble(game, play_button):
+    game_id = game.get("name")
+
+    stats = _get_game_stats(game_id)
+    data = _format_game_data(game, stats)
+
+    return _build_ui(data, play_button)

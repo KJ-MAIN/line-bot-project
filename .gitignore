@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.pyc
+
+# Virtual env
+venv/
+
+# Environment
+.env
+
+# Google credentials
+service-account.json
+
+# IDE
+.vscode/
+.idea/
+
+# Optional
+*.log
+*.sqlite3
