@@ -145,7 +145,7 @@ def handle_message(event):
             buttons = random.sample(PLAY_BUTTON_IMAGES, len(picks))
         
             for g, btn in zip(picks, buttons):
-                bubbles.append(build_game_bubble(g, btn))
+                bubbles.append(build_game_bubble(g, btn, True))
         
             flex_json = {
                 "type": "carousel",
@@ -178,7 +178,7 @@ def handle_message(event):
             buttons = random.sample(PLAY_BUTTON_IMAGES, len(picks))
         
             for g, btn in zip(picks, buttons):
-                bubbles.append(build_game_bubble(g, btn))
+                bubbles.append(build_game_bubble(g, btn, True))
         
             flex_json = {
                 "type": "carousel",
@@ -211,7 +211,7 @@ def handle_message(event):
             buttons = random.sample(PLAY_BUTTON_IMAGES, len(picks))
         
             for g, btn in zip(picks, buttons):
-                bubbles.append(build_game_bubble(g, btn))
+                bubbles.append(build_game_bubble(g, btn, True))
         
             flex_json = {
                 "type": "carousel",
@@ -244,8 +244,11 @@ def handle_message(event):
 
             provider = None
             
+            show_provider = True
+            
             if len(parts) > 1:
                 provider = " ".join(parts[1:]).upper()
+                show_provider = False   # 🔥 เลือกค่าย → ไม่ต้องโชว์โลโก้
 
             # กรองเกมตามค่าย
             if provider:
@@ -276,7 +279,7 @@ def handle_message(event):
             
             for g, btn in zip(picks, buttons):
             
-                bubble = build_game_bubble(g, btn)
+                bubble = build_game_bubble(g, btn, show_provider)
             
                 bubbles.append(bubble)
 

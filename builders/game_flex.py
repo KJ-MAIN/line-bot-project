@@ -48,7 +48,7 @@ def _get_game_stats(game_id):
 # =========================
 # 🔹 2. FORMAT LAYER
 # =========================
-def _format_game_data(game, stats):
+def _format_game_data(game, stats, show_provider):
     rtp_raw = str(game.get("rtp", "0")).replace("%", "")
     
     try:
@@ -69,7 +69,7 @@ def _format_game_data(game, stats):
     
 
     
-    provider_icon = PROVIDER_LOGOS.get(provider_key, "")
+    provider_icon = PROVIDER_LOGOS.get(provider_key, "") if show_provider else None
 
     return {
     
@@ -93,10 +93,10 @@ def _format_game_data(game, stats):
 # =========================
 # 🔹 4. PUBLIC FUNCTION
 # =========================
-def build_game_bubble(game, play_button):
+def build_game_bubble(game, play_button, show_provider=True):
     game_id = game.get("name")
 
     stats = _get_game_stats(game_id)
     data = _format_game_data(game, stats)
 
-    return build_ui(data, play_button)
+    return build_ui(data, play_button, show_provider)
