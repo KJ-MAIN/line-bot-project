@@ -1,3 +1,5 @@
+from builders.game_ui import build_ui
+
 from utils.provider_mapper import map_provider
 
 from providers import PROVIDERS_1, PROVIDERS_2
@@ -65,6 +67,7 @@ def _format_game_data(game, stats):
     provider_raw = game.get("provider", "")
     provider_key = map_provider(provider_raw)
     
+
     
     provider_icon = PROVIDER_LOGOS.get(provider_key, "")
 
@@ -87,201 +90,6 @@ def _format_game_data(game, stats):
         "players_text": f"{stats['players']:,} คน"
     }
 
-
-# =========================
-# 🔹 3. UI LAYER
-# =========================
-def _build_ui(data, play_button):
-    return {
-        "type": "bubble",
-        "size": "mega",
-
-        "hero": {
-            "type": "image",
-            "url": data["bg"],
-            "size": "full",
-            "aspectRatio": "20:13",
-            "aspectMode": "cover"
-        },
-
-        "body": {
-            "type": "box",
-            "layout": "vertical",
-            "spacing": "md",
-            "paddingAll": "5px",
-
-            "background": {
-                "type": "linearGradient",
-                "angle": "30deg",
-                "startColor": "#0F2027",
-                "endColor": "#0F2027",
-                "centerColor": "#203A43"
-            },
-
-            "contents": [
-
-                # 🔹 icon + name
-                {
-                    "type": "box",
-                    "layout": "horizontal",
-                    "spacing": "10px",
-                    "contents": [
-                        {
-                            "type": "image",
-                            "url": data["icon"],
-                            "aspectRatio": "1:1",
-                            "size": "xs",
-                            "flex": 0
-                        },
-                        {
-                            "type": "image",
-                            "url": data.get("provider_icon", ""),
-                            "aspectRatio": "1:1",
-                            "size": "xxs",
-                            "flex": 0
-                        },
-                        {
-                            "type": "box",
-                            "layout": "vertical",
-                            "flex": 1,
-                            "backgroundColor": "#FFFFFF",
-                            "borderWidth": "2px",
-                            "borderColor": "#000000",
-                            "contents": [
-                                {
-                                    "type": "text",
-                                    "text": data["name"],
-                                    "weight": "bold",
-                                    "size": "md",
-                                    "align": "center",
-                                    "color": "#1C1C1C",
-                                    "wrap": True
-                                },
-                                {
-                                    "type": "text",
-                                    "text": data["desc"],
-                                    "size": "xxs",
-                                    "wrap": True,
-                                    "align": "center",
-                                    "color": "#1C1C1C"
-                                }
-                            ]
-                        }
-                    ]
-                },
-
-                # 🔹 stats
-                {
-                    "type": "box",
-                    "layout": "horizontal",
-                    "spacing": "5px",
-                    "contents": [
-                        _badge(data["volatility"], "ความผันผวน"),
-                        _badge(data["maxwin"], "รางวัลสูงสุด"),
-                        _badge(data["withdraw_text"], "ถอนล่าสุด"),
-                        _badge(data["players_text"], "ผู้เล่น")
-                    ]
-                },
-
-                # 🔹 RTP bar
-                {
-                    "type": "box",
-                    "layout": "vertical",
-                    "borderWidth": "2px",
-                    "borderColor": "#000000",
-                    "cornerRadius": "10px",
-                    "contents": [
-                        {
-                            "type": "box",
-                            "layout": "vertical",
-                            "backgroundColor": "#FFFFFF",
-                            "height": "16px",
-                            "cornerRadius": "10px",
-                            "contents": [
-                                {
-                                    "type": "box",
-                                    "layout": "vertical",
-                                    "width": f"{min(data['rtp'], 100)}%",
-                                    "height": "16px",
-                                    "backgroundColor": "#00FF00",
-                                    "contents": []   # 🔥 สำคัญมาก
-                                },
-                                {
-                                    "type": "box",
-                                    "layout": "vertical",
-                                    "position": "absolute",
-                                    "width": "100%",
-                                    "height": "16px",
-                                    "alignItems": "center",
-                                    "justifyContent": "center",
-                                    "contents": [
-                                        {
-                                            "type": "text",
-                                            "text": f"{data['rtp']}%",
-                                            "size": "xs",
-                                            "weight": "bold",
-                                            "align": "center",
-                                            "color": "#000000"
-                                        }
-                                    ]
-                                }
-                            ]
-                        }
-                    ]
-                },
-
-                # 🔹 play button
-                {
-                    "type": "box",
-                    "layout": "vertical",
-                    "backgroundColor": "#CD0000",
-                    "cornerRadius": "20px",
-                    "action": {
-                        "type": "uri",
-                        "uri": "https://member.nupv.life/th"
-                    },
-                    "contents": [
-                        {
-                            "type": "image",
-                            "url": play_button,
-                            "size": "full",
-                            "aspectRatio": "4.3:1"
-                        }
-                    ]
-                }
-
-            ]
-        }
-    }
-
-
-def _badge(value, label):
-    return {
-        "type": "box",
-        "layout": "vertical",
-        "backgroundColor": "#A52A2A",
-        "borderWidth": "2px",
-        "borderColor": "#000000",
-        "contents": [
-            {
-                "type": "text",
-                "text": value,
-                "size": "xxs",
-                "weight": "bold",
-                "align": "center",
-                "color": "#FFFFFF"
-            },
-            {
-                "type": "text",
-                "text": label,
-                "size": "10px",
-                "align": "center",
-                "color": "#FFFFFF"
-            }
-        ]
-    }
-
-
 # =========================
 # 🔹 4. PUBLIC FUNCTION
 # =========================
@@ -291,4 +99,4 @@ def build_game_bubble(game, play_button):
     stats = _get_game_stats(game_id)
     data = _format_game_data(game, stats)
 
-    return _build_ui(data, play_button)
+    return build_ui(data, play_button)
