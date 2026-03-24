@@ -19,6 +19,7 @@ from services.sheets_service import get_games
 from builders.game_flex import build_game_bubble, PLAY_BUTTON_IMAGES
 from builders.provider_menu import build_provider_carousel
 from builders.profile_card import build_profile_bubble
+from builders.feature_menu import build_feature_menu
 
 app = Flask(__name__)
 
