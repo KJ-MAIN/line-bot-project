@@ -103,6 +103,122 @@ def handle_message(event):
                 )
             )
             return
+            
+        # ===== FEATURE: เมนูค่าย (ของเดิม) =====
+        elif text == "ขอเมนูค่ายเกมส์":
+        
+            flex = build_provider_carousel()
+        
+            api.reply_message(
+                ReplyMessageRequest(
+                    reply_token=event.reply_token,
+                    messages=[
+                        FlexMessage(
+                            alt_text="เลือกค่ายเกม",
+                            contents=FlexContainer.from_dict(flex)
+                        )
+                    ]
+                )
+            )
+            return
+
+        # ===== FEATURE: ถอนเยอะ =====
+        elif text == "ถอนเยอะสุดช่วงเวลานี้":
+        
+            rows = get_games()
+            picks = random.sample(rows, min(5, len(rows)))
+        
+            bubbles = []
+            bubbles.append(build_profile_bubble("withdraw"))
+        
+            buttons = random.sample(PLAY_BUTTON_IMAGES, len(picks))
+        
+            for g, btn in zip(picks, buttons):
+                bubbles.append(build_game_bubble(g, btn))
+        
+            flex_json = {
+                "type": "carousel",
+                "contents": bubbles
+            }
+        
+            api.reply_message(
+                ReplyMessageRequest(
+                    reply_token=event.reply_token,
+                    messages=[
+                        FlexMessage(
+                            alt_text="ถอนเยอะ",
+                            contents=FlexContainer.from_dict(flex_json)
+                        )
+                    ]
+                )
+            )
+            return
+        
+        
+        # ===== FEATURE: แตกหนัก =====
+        elif text == "สถิติแตกหนักที่สุด":
+        
+            rows = get_games()
+            picks = random.sample(rows, min(5, len(rows)))
+        
+            bubbles = []
+            bubbles.append(build_profile_bubble("heavy"))
+        
+            buttons = random.sample(PLAY_BUTTON_IMAGES, len(picks))
+        
+            for g, btn in zip(picks, buttons):
+                bubbles.append(build_game_bubble(g, btn))
+        
+            flex_json = {
+                "type": "carousel",
+                "contents": bubbles
+            }
+        
+            api.reply_message(
+                ReplyMessageRequest(
+                    reply_token=event.reply_token,
+                    messages=[
+                        FlexMessage(
+                            alt_text="แตกหนัก",
+                            contents=FlexContainer.from_dict(flex_json)
+                        )
+                    ]
+                )
+            )
+            return
+        
+        
+        # ===== FEATURE: แนะนำ =====
+        elif text == "โบนัสไทม์เฉพาะฉันเท่านั้น":
+        
+            rows = get_games()
+            picks = random.sample(rows, min(5, len(rows)))
+        
+            bubbles = []
+            bubbles.append(build_profile_bubble("recommend"))
+        
+            buttons = random.sample(PLAY_BUTTON_IMAGES, len(picks))
+        
+            for g, btn in zip(picks, buttons):
+                bubbles.append(build_game_bubble(g, btn))
+        
+            flex_json = {
+                "type": "carousel",
+                "contents": bubbles
+            }
+        
+            api.reply_message(
+                ReplyMessageRequest(
+                    reply_token=event.reply_token,
+                    messages=[
+                        FlexMessage(
+                            alt_text="แนะนำ",
+                            contents=FlexContainer.from_dict(flex_json)
+                        )
+                    ]
+                )
+            )
+            return           
 
 
 
