@@ -1,3 +1,5 @@
+from utils.provider_mapper import map_provider
+
 from providers import PROVIDERS_1, PROVIDERS_2
 ALL_PROVIDERS = PROVIDERS_1 + PROVIDERS_2
 
@@ -60,53 +62,8 @@ def _format_game_data(game, stats):
     except:
         rtp_num = 0
     
-    provider_raw = game.get("provider", "").upper()
-    
-    # 🔥 normalize ให้ match key
-    if "PRAGMATIC" in provider_raw:
-        provider_key = "PRAGMATIC"
-    
-    elif "PSG" in provider_raw:
-        provider_key = "PSG PRIMESIGMA"
-    
-    elif "PGS" in provider_raw:
-        provider_key = "PGS PEGASUS"
-    
-    elif "PG" in provider_raw:
-        provider_key = "PG"
-    
-    elif "JILI" in provider_raw:
-        provider_key = "JILI"
-    
-    elif "NAGA" in provider_raw:
-        provider_key = "NAGAGAME"
-    
-    elif "JOKER" in provider_raw:
-        provider_key = "JOKER"
-    
-    elif "YGG" in provider_raw:
-        provider_key = "YGG"
-    
-    elif "SPADE" in provider_raw:
-        provider_key = "SPADE"
-    
-    elif "RELAX" in provider_raw:
-        provider_key = "RELAX"
-    
-    elif "EVOPLAY" in provider_raw:
-        provider_key = "EVOPLAY"
-    
-    elif "BLUEPRINT" in provider_raw:
-        provider_key = "BLUEPRINT"
-    
-    elif "NEXTSPIN" in provider_raw:
-        provider_key = "NEXTSPIN"
-    
-    elif "ADVANT" in provider_raw:
-        provider_key = "ADVANTPLAY"
-    
-    elif "MIMI" in provider_raw:
-        provider_key = "MIMI"
+    provider_raw = game.get("provider", "")
+    provider_key = map_provider(provider_raw)
     
     else:
         provider_key = provider_raw
