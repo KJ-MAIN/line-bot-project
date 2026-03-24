@@ -6,6 +6,14 @@ PROVIDER_LOGOS = {}
 for p in ALL_PROVIDERS:
     key = p["name"].upper()
     PROVIDER_LOGOS[key] = p["image"]
+    
+PLAY_BUTTON_IMAGES = [
+    "https://res.cloudinary.com/dn9xnmoqx/image/upload/v1773603242/paly1.png",
+    "https://res.cloudinary.com/dn9xnmoqx/image/upload/v1773603242/paly2.png",
+    "https://res.cloudinary.com/dn9xnmoqx/image/upload/v1773603241/paly3.png",
+    "https://res.cloudinary.com/dn9xnmoqx/image/upload/v1773603241/play4.png",
+    "https://res.cloudinary.com/dn9xnmoqx/image/upload/v1773608200/play5.png"
+]    
 
 import random
 from datetime import datetime
