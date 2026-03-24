@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 
-def build_profile_bubble():
+def build_profile_bubble(mode="default"):
 
     now = datetime.utcnow() + timedelta(hours=7)
     end = now + timedelta(hours=1)
@@ -9,6 +9,16 @@ def build_profile_bubble():
     end_time = end.strftime("%H:%M")
 
     time_text = f"⏰ รอบเวลา {start_time} - {end_time}"
+    
+    # 🔥 เปลี่ยน title ตาม mode
+    title = "🔥BONUS TIME LIVE🔥"
+    
+    if mode == "withdraw":
+        title = "💰 ถอนเยอะช่วงนี้"
+    elif mode == "heavy":
+        title = "💥 แตกหนักจัดเต็ม"
+    elif mode == "recommend":
+    title = "🎯 แนะนำสำหรับคุณ"
 
     bubble = {
         "type": "bubble",
@@ -40,7 +50,7 @@ def build_profile_bubble():
 
                 {
                     "type": "text",
-                    "text": "🔥BONUS TIME LIVE🔥",
+                    "text": title,
                     "weight": "bold",
                     "size": "xl",
                     "align": "center",
