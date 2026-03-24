@@ -38,9 +38,17 @@ def _get_game_stats(game_id):
 # =========================
 def _format_game_data(game, stats):
     rtp_raw = str(game.get("rtp", "0")).replace("%", "")
-
+    
     try:
-        rtp_num = float(rtp_raw)
+        base_rtp = float(rtp_raw)
+    
+        # 🔥 เพิ่ม dynamic offset (เนียน ๆ)
+        offset = random.uniform(-0.5, 0.5)
+    
+        rtp_num = round(base_rtp + offset, 2)
+        
+        rtp_num = max(90, min(rtp_num, 99.5))
+    
     except:
         rtp_num = 0
 
@@ -51,8 +59,11 @@ def _format_game_data(game, stats):
         "icon": game.get("icon_url"),
         "volatility": game.get("volatility", "HIGH"),
         "maxwin": game.get("maxwin", "5000X"),
-        "rtp": rtp_raw,
+    
+        # 🔥 แก้ตรงนี้
+        "rtp": rtp_num,
         "bar": f"{rtp_num}%",
+    
         "withdraw_text": f"💰{stats['withdraw']:,}฿",
         "players_text": f"{stats['players']:,} คน"
     }
@@ -164,7 +175,7 @@ def _build_ui(data, play_button):
                                 {
                                     "type": "box",
                                     "layout": "vertical",
-                                    "width": data["bar"],
+                                    "width": f"{min(data['rtp'], 100)}%",
                                     "height": "16px",
                                     "backgroundColor": "#00FF00",
                                     "contents": []   # 🔥 สำคัญมาก
