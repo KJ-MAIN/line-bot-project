@@ -18,7 +18,7 @@ def build_profile_bubble(mode="default"):
     elif mode == "heavy":
         title = "💥 แตกหนักจัดเต็ม"
     elif mode == "recommend":
-    title = "🎯 แนะนำสำหรับคุณ"
+        title = "🎯 แนะนำสำหรับคุณ"
 
     bubble = {
         "type": "bubble",
