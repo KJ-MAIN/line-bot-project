@@ -16,7 +16,7 @@ git status
 git add .
 
 6) บันทึกเวอร์ชัน
-git commit -m "อธิบายสิ่งที่แก้"
+git commit -m "update rtp center fix" 
 
 7) ส่งขึ้น GitHub
 git push

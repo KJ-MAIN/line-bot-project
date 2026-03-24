@@ -87,24 +87,20 @@ def handle_message(event):
         # ===== เมนูหลัก =====
 
         if text == "ขอโบนัสไทม์":
-
-            flex = build_provider_carousel()
+        
+            flex = build_feature_menu()  # 👈 สร้างใหม่
         
             api.reply_message(
                 ReplyMessageRequest(
                     reply_token=event.reply_token,
                     messages=[
                         FlexMessage(
-                            alt_text="เลือกค่ายเกม",  # ← เก็บไว้ตรงนี้เหมือนเดิม
+                            alt_text="เลือกประเภทเกม",
                             contents=FlexContainer.from_dict(flex)
-                        ),
-                        TextMessage(
-                            text="เลือกค่ายที่ต้องการเช็คเกมส์ได้เลยค่ะ"
                         )
                     ]
                 )
             )
-        
             return
 
 
