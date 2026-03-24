@@ -27,6 +27,7 @@ import time
 
 user_last_request = {}
 COOLDOWN = 3
+user_last_games = {}
 
 # ===== โหลด .env =====
 load_dotenv()
@@ -52,15 +53,25 @@ def callback():
 
     return "OK"
 
+def pick_smart_random_games(rows, user_id, n=5):
+    last_games = user_last_games.get(user_id, [])
 
-# ===== สุ่มเกม =====
-def pick_random_games(rows, n=4):
+    # 🔥 กรองเกมที่เพิ่งแสดง
+    filtered = [
+        g for g in rows
+        if g.get("name") not in last_games
+    ]
 
-    if len(rows) <= n:
-        return rows
+    # 🔄 fallback ถ้าเหลือน้อย
+    if len(filtered) < n:
+        filtered = rows
 
-    return random.sample(rows, n)
+    picks = random.sample(filtered, min(n, len(filtered)))
 
+    # 💾 บันทึกล่าสุด
+    user_last_games[user_id] = [g.get("name") for g in picks][:3]
+
+    return picks
 
 # =========================
 @handler.add(MessageEvent, message=TextMessageContent)
@@ -126,7 +137,7 @@ def handle_message(event):
         elif text == "ถอนเยอะสุดช่วงเวลานี้":
         
             rows = get_games()
-            picks = random.sample(rows, min(5, len(rows)))
+            picks = pick_smart_random_games(rows, user_id, 5)
         
             bubbles = []
             bubbles.append(build_profile_bubble("withdraw"))
@@ -159,7 +170,7 @@ def handle_message(event):
         elif text == "สถิติแตกหนักที่สุด":
         
             rows = get_games()
-            picks = random.sample(rows, min(5, len(rows)))
+            picks = pick_smart_random_games(rows, user_id, 5)
         
             bubbles = []
             bubbles.append(build_profile_bubble("heavy"))
@@ -192,7 +203,7 @@ def handle_message(event):
         elif text == "โบนัสไทม์เฉพาะฉันเท่านั้น":
         
             rows = get_games()
-            picks = random.sample(rows, min(5, len(rows)))
+            picks = pick_smart_random_games(rows, user_id, 5)
         
             bubbles = []
             bubbles.append(build_profile_bubble("recommend"))
@@ -254,7 +265,7 @@ def handle_message(event):
 
                 return
 
-            picks = pick_random_games(rows, min(5, len(rows)))
+            picks = pick_smart_random_games(rows, user_id, 5)
             
             bubbles = []
             
