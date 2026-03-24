@@ -1,0 +1,33 @@
+🚀 WORKFLOW แก้โค้ด + อัปขึ้น Railway
+
+ใช้เมื่อ: แก้โค้ดแล้วอยากให้บอทอัปเดต
+
+1) แก้โค้ดในไฟล์ (เช่น game_flex.py / bot.py / services ต่างๆ)
+
+2) เปิด CMD
+
+3) เข้าโปรเจค
+cd C:\Users\SP\Desktop\line-bot-project
+
+4) เช็คไฟล์ที่แก้
+git status
+
+5) เตรียมไฟล์
+git add .
+
+6) บันทึกเวอร์ชัน
+git commit -m "อธิบายสิ่งที่แก้"
+
+7) ส่งขึ้น GitHub
+git push
+
+8) เข้า Railway ดู Deploy (ต้องขึ้น success)
+
+9) ทดสอบใน LINE
+ขอโบนัสไทม์
+โบนัสไทม์ PG
+
+สรุปสั้น:
+แก้โค้ด → git add . → git commit → git push → Railway deploy → เสร็จ
+
+❌ ไม่ต้องใช้ python bot.py (ใช้เฉพาะตอน local เท่านั้น)

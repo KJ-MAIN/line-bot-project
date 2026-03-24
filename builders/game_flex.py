@@ -181,14 +181,23 @@ def _build_ui(data, play_button):
                                     "contents": []   # 🔥 สำคัญมาก
                                 },
                                 {
-                                    "type": "text",
-                                    "text": f"RTP {data['rtp']}%",
-                                    "size": "xs",
-                                    "weight": "bold",
-                                    "align": "center",
-                                    "gravity": "center",
-                                    "color": "#000000",
-                                    "offsetTop": "-16px"
+                                    "type": "box",
+                                    "layout": "vertical",
+                                    "position": "absolute",
+                                    "width": "100%",
+                                    "height": "16px",
+                                    "alignItems": "center",
+                                    "justifyContent": "center",
+                                    "contents": [
+                                        {
+                                            "type": "text",
+                                            "text": f"{data['rtp']}%",
+                                            "size": "xs",
+                                            "weight": "bold",
+                                            "align": "center",
+                                            "color": "#000000"
+                                        }
+                                    ]
                                 }
                             ]
                         }
