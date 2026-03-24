@@ -65,8 +65,6 @@ def _format_game_data(game, stats):
     provider_raw = game.get("provider", "")
     provider_key = map_provider(provider_raw)
     
-    else:
-        provider_key = provider_raw
     
     provider_icon = PROVIDER_LOGOS.get(provider_key, "")
 
