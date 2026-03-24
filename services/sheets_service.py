@@ -29,20 +29,41 @@ games_ws = gc.open(config.SPREADSHEET_NAME).worksheet("games")
 
 # ===== CACHE =====
 _games_cache = None
+_games_by_provider = {}
 _cache_time = 0
 CACHE_TTL = 300
 
 
 # ===== functions =====
 def get_games():
-    global _games_cache, _cache_time
+    global _games_cache, _cache_time, _games_by_provider   # 🔥 เพิ่มตัวนี้
 
     now = time.time()
 
     if _games_cache is None or now - _cache_time > CACHE_TTL:
         try:
+            # ✅ โหลดครั้งเดียวพอ
             rows = games_ws.get_all_records()
+
             _games_cache = [r for r in rows if r.get("name")]
+
+            # 🔥 สร้าง index แยก provider
+            from utils.provider_mapper import map_provider
+
+            provider_map = {}
+
+            for g in _games_cache:
+                raw = g.get("provider", "")
+                key = map_provider(raw)
+
+                if key not in provider_map:
+                    provider_map[key] = []
+
+                provider_map[key].append(g)
+
+            # ✅ เก็บ index
+            _games_by_provider = provider_map
+
             _cache_time = now
 
             print("📥 โหลด games จาก Google Sheet (refresh cache)")
@@ -57,3 +78,9 @@ def get_games():
             return []
 
     return _games_cache
+    
+def get_games_by_provider(provider):
+    if not _games_by_provider:
+        get_games()
+
+    return _games_by_provider.get(provider, [])
