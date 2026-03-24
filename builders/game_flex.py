@@ -97,6 +97,6 @@ def build_game_bubble(game, play_button, show_provider=True):
     game_id = game.get("name")
 
     stats = _get_game_stats(game_id)
-    data = _format_game_data(game, stats)
+    data = _format_game_data(game, stats, show_provider)
 
     return build_ui(data, play_button, show_provider)
