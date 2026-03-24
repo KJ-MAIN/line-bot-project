@@ -1,17 +1,17 @@
+from providers import PROVIDERS_1, PROVIDERS_2
+ALL_PROVIDERS = PROVIDERS_1 + PROVIDERS_2
+
+PROVIDER_LOGOS = {}
+
+for p in ALL_PROVIDERS:
+    key = p["name"].upper()
+    PROVIDER_LOGOS[key] = p["image"]
+
 import random
 from datetime import datetime
 
 # ===== memory stats =====
 GAME_STATS = {}
-
-PLAY_BUTTON_IMAGES = [
-    "https://res.cloudinary.com/dn9xnmoqx/image/upload/v1773603242/paly1.png",
-    "https://res.cloudinary.com/dn9xnmoqx/image/upload/v1773603242/paly2.png",
-    "https://res.cloudinary.com/dn9xnmoqx/image/upload/v1773603241/paly3.png",
-    "https://res.cloudinary.com/dn9xnmoqx/image/upload/v1773603241/play4.png",
-    "https://res.cloudinary.com/dn9xnmoqx/image/upload/v1773608200/play5.png"
-]
-
 
 # =========================
 # 🔹 1. LOGIC LAYER (stats)
@@ -51,8 +51,64 @@ def _format_game_data(game, stats):
     
     except:
         rtp_num = 0
+    
+    provider_raw = game.get("provider", "").upper()
+    
+    # 🔥 normalize ให้ match key
+    if "PRAGMATIC" in provider_raw:
+        provider_key = "PRAGMATIC"
+    
+    elif "PSG" in provider_raw:
+        provider_key = "PSG PRIMESIGMA"
+    
+    elif "PGS" in provider_raw:
+        provider_key = "PGS PEGASUS"
+    
+    elif "PG" in provider_raw:
+        provider_key = "PG"
+    
+    elif "JILI" in provider_raw:
+        provider_key = "JILI"
+    
+    elif "NAGA" in provider_raw:
+        provider_key = "NAGAGAME"
+    
+    elif "JOKER" in provider_raw:
+        provider_key = "JOKER"
+    
+    elif "YGG" in provider_raw:
+        provider_key = "YGG"
+    
+    elif "SPADE" in provider_raw:
+        provider_key = "SPADE"
+    
+    elif "RELAX" in provider_raw:
+        provider_key = "RELAX"
+    
+    elif "EVOPLAY" in provider_raw:
+        provider_key = "EVOPLAY"
+    
+    elif "BLUEPRINT" in provider_raw:
+        provider_key = "BLUEPRINT"
+    
+    elif "NEXTSPIN" in provider_raw:
+        provider_key = "NEXTSPIN"
+    
+    elif "ADVANT" in provider_raw:
+        provider_key = "ADVANTPLAY"
+    
+    elif "MIMI" in provider_raw:
+        provider_key = "MIMI"
+    
+    else:
+        provider_key = provider_raw
+    
+    provider_icon = PROVIDER_LOGOS.get(provider_key, "")
 
     return {
+    
+        "provider": provider_key,
+        "provider_icon": provider_icon,
         "name": game.get("name", "Unknown Game"),
         "desc": game.get("description", "-"),
         "bg": game.get("bg_url"),
@@ -112,6 +168,13 @@ def _build_ui(data, play_button):
                             "url": data["icon"],
                             "aspectRatio": "1:1",
                             "size": "xs",
+                            "flex": 0
+                        },
+                        {
+                            "type": "image",
+                            "url": data.get("provider_icon", ""),
+                            "aspectRatio": "1:1",
+                            "size": "xxs",
                             "flex": 0
                         },
                         {
