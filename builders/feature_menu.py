@@ -167,6 +167,8 @@ def build_feature_menu():
                             "type": "image",
                             "url": "https://cdn-icons-png.flaticon.com/512/1055/1055687.png",
                             "size": "4xl"
+                            "aspectRatio": "1:1",
+                            "aspectMode": "cover"
                         },
                         {
                             "type": "text",
@@ -231,6 +233,8 @@ def build_feature_menu():
                             "type": "image",
                             "url": "https://cdn-icons-png.flaticon.com/512/1055/1055687.png",
                             "size": "4xl"
+                            "aspectRatio": "1:1",
+                            "aspectMode": "cover"
                         },
                         {
                             "type": "text",
