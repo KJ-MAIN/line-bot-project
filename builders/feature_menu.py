@@ -90,7 +90,7 @@ def build_feature_menu():
                     "contents": [
                         {
                             "type": "text",
-                            "text": "🧧ถอนบ่อยที่สุด🧧",
+                            "text": "💰ถอนบ่อยที่สุด💰",
                             "weight": "bold",
                             "size": "xl",
                             "align": "center",
@@ -101,6 +101,8 @@ def build_feature_menu():
                             "type": "image",
                             "url": "https://cdn-icons-png.flaticon.com/512/1055/1055687.png",
                             "size": "4xl"
+                            "aspectRatio": "1:1",
+                            "aspectMode": "cover"
                         },
                         {
                             "type": "text",
