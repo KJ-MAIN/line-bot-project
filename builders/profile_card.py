@@ -10,15 +10,22 @@ def build_profile_bubble(mode="default"):
 
     time_text = f"⏰ รอบเวลา {start_time} - {end_time}"
     
-    # 🔥 เปลี่ยน title ตาม mode
-    title = "🔥BONUS TIME LIVE🔥"
-    
+    # 🔥 รวม logic ให้จบใน block เดียว
     if mode == "withdraw":
         title = "💰 ถอนเยอะช่วงนี้"
+        middle_text = "🔥เกมส์ที่มีประวิติการถอนบ่อยที่สุด🔥"
+    
     elif mode == "heavy":
         title = "💥 แตกหนักจัดเต็ม"
+        middle_text = "🧶เกมส์ที่ยอดรวมการถอนเยอะที่สุด🧶"
+    
     elif mode == "recommend":
         title = "🎯 แนะนำสำหรับคุณ"
+        middle_text = "🎁ระบบเลือกให้คุณโดยเฉพาะ (ห้ามพลาด)🎁"
+    
+    else:
+        title = "🔥 โบนัสกำลังมา 🔥"
+        middle_text = time_text
 
     bubble = {
         "type": "bubble",
@@ -59,7 +66,7 @@ def build_profile_bubble(mode="default"):
 
                 {
                     "type": "text",
-                    "text": time_text,
+                    "text": middle_text,
                     "size": "md",
                     "weight": "bold",
                     "align": "center",
@@ -74,7 +81,7 @@ def build_profile_bubble(mode="default"):
 
                 {
                     "type": "text",
-                    "text": "🟢 วิเคราะห์ข้อมูลแบบเรียลไทม์🟢",
+                    "text": "🟢ระบบจับจังหวะโบนัสสำเร็จ🟢",
                     "size": "md",
                     "weight": "bold",
                     "align": "center",
