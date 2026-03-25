@@ -71,7 +71,7 @@ def build_ui(data, play_button, show_provider=True):   # 🔥 เปลี่ย
                             "type": "image",
                             "url": data.get("provider_icon", ""),
                             "aspectRatio": "1:1",
-                            "size": "xxs",
+                            "size": "sm",
                             "flex": 0
                         }
                     ] if show_provider else []),
