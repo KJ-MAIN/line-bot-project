@@ -1,74 +1,57 @@
 def build_feature_menu():
 
-    bubble = {
-        "type": "bubble",
-        "size": "mega",
-        "body": {
-            "type": "box",
-            "layout": "vertical",
-            "spacing": "12px",
-            "paddingAll": "12px",
-            "background": {
-                "type": "linearGradient",
-                "angle": "45deg",
-                "startColor": "#6B8E23",
-                "centerColor": "#191970",
-                "endColor": "#6B8E23"
-            },
-            "contents": [
+    return {
+        "type": "carousel",
+        "contents": [
 
-                # 🔥 Header
-                {
+            # 🎮 เลือกค่าย
+            {
+                "type": "bubble",
+                "size": "mega",
+                "body": {
                     "type": "box",
-                    "layout": "horizontal",
-                    "cornerRadius": "12px",
-                    "backgroundColor": "#00FFCC",
-                    "borderWidth": "3px",
-                    "borderColor": "#FF0000",
-                    "paddingAll": "8px",
+                    "layout": "vertical",
+                    "paddingAll": "10px",
+                    "spacing": "12px",
+                    "background": {
+                        "type": "linearGradient",
+                        "angle": "30deg",
+                        "startColor": "#2E8B57",
+                        "centerColor": "#0000FF",
+                        "endColor": "#A52A2A"
+                    },
                     "contents": [
                         {
                             "type": "text",
-                            "text": "☯คลิกเลือกฟีเจอร์ที่มีได้เลยค่ะ☯",
+                            "text": "🎮 เลือกค่ายเกม 🎮",
                             "weight": "bold",
+                            "size": "xl",
+                            "align": "center",
+                            "color": "#FFFFFF",
+                            "style": "italic"
+                        },
+                        {
+                            "type": "image",
+                            "url": "https://cdn-icons-png.flaticon.com/512/1055/1055687.png",
+                            "size": "4xl",
+                            "aspectRatio": "1:1",
+                            "aspectMode": "cover"
+                        },
+                        {
+                            "type": "text",
+                            "text": "เลือกค่ายที่คุณต้องการเล่นด้วยตนเอง\nเพื่ออรรถรสจากค่ายที่คุณรัก",
                             "size": "md",
                             "align": "center",
-                            "color": "#000000"
-                        }
-                    ]
-                },
-
-                {
-                    "type": "text",
-                    "text": "คัดเกมส์ตามตัวเลือกที่ดีที่สุด คลิกเลย!!!",
-                    "size": "md",
-                    "align": "center",
-                    "color": "#FFFFFF"
-                },
-
-                {
-                    "type": "separator",
-                    "margin": "md",
-                    "color": "#555555"
-                },
-
-                # 🔥 BUTTON GROUP
-                {
-                    "type": "box",
-                    "layout": "vertical",
-                    "spacing": "10px",
-                    "contents": [
-
-                        # ⭐ เลือกค่าย
+                            "wrap": True,
+                            "color": "#FFF0F5"
+                        },
                         {
                             "type": "box",
-                            "layout": "horizontal",
+                            "layout": "vertical",
+                            "margin": "md",
+                            "cornerRadius": "20px",
+                            "backgroundColor": "#FFFFFF",
                             "paddingAll": "10px",
-                            "cornerRadius": "12px",
-                            "backgroundColor": "#8B0000",
-                            "borderWidth": "2px",
-                            "borderColor": "#00FF7F",
-                            "shadow": "md",
                             "action": {
                                 "type": "message",
                                 "text": "ขอเมนูค่ายเกมส์"
@@ -76,51 +59,128 @@ def build_feature_menu():
                             "contents": [
                                 {
                                     "type": "text",
-                                    "text": "⭐ เลือกค่ายเกม ⭐",
+                                    "text": "เลือกค่าย",
                                     "weight": "bold",
-                                    "color": "#FFFFFF",
-                                    "size": "md",
-                                    "align": "center"
+                                    "align": "center",
+                                    "color": "#000080",
+                                    "size": "lg"
                                 }
                             ]
-                        },
+                        }
+                    ]
+                }
+            },
 
-                        # 💰 ถอนเยอะ
+            # 💰 ถอนบ่อย
+            {
+                "type": "bubble",
+                "size": "mega",
+                "body": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "paddingAll": "10px",
+                    "spacing": "12px",
+                    "background": {
+                        "type": "linearGradient",
+                        "angle": "30deg",
+                        "startColor": "#2E8B57",
+                        "centerColor": "#0000FF",
+                        "endColor": "#A52A2A"
+                    },
+                    "contents": [
+                        {
+                            "type": "text",
+                            "text": "🧧ถอนบ่อยที่สุด🧧",
+                            "weight": "bold",
+                            "size": "xl",
+                            "align": "center",
+                            "color": "#FFFFFF",
+                            "style": "italic"
+                        },
+                        {
+                            "type": "image",
+                            "url": "https://cdn-icons-png.flaticon.com/512/1055/1055687.png",
+                            "size": "4xl"
+                        },
+                        {
+                            "type": "text",
+                            "text": "เกมส์ที่จ่ายบ่อยที่สุด\nอาจจะถอนไม่หนักแต่ถอนไม่พักแน่นอน",
+                            "size": "md",
+                            "align": "center",
+                            "wrap": True,
+                            "color": "#FFF0F5"
+                        },
                         {
                             "type": "box",
-                            "layout": "horizontal",
+                            "layout": "vertical",
+                            "margin": "md",
+                            "cornerRadius": "20px",
+                            "backgroundColor": "#FFFFFF",
                             "paddingAll": "10px",
-                            "cornerRadius": "12px",
-                            "backgroundColor": "#000000",
-                            "borderWidth": "2px",
-                            "borderColor": "#00FF7F",
-                            "shadow": "md",
                             "action": {
                                 "type": "message",
-                                "text": "ถอนเยอะสุดช่วงเวลานี้"
+                                "text": "เกมส์จ่ายบ่อยถอนไม่พัก"
                             },
                             "contents": [
                                 {
                                     "type": "text",
-                                    "text": "💰 ถอนเยอะตอนนี้ 💰",
+                                    "text": "คลิกขอเกมส์เลย",
                                     "weight": "bold",
-                                    "color": "#FFFFFF",
-                                    "size": "md",
-                                    "align": "center"
+                                    "align": "center",
+                                    "color": "#000080",
+                                    "size": "lg"
                                 }
                             ]
-                        },
+                        }
+                    ]
+                }
+            },
 
-                        # 💥 แตกหนัก
+            # 💥 แตกหนัก
+            {
+                "type": "bubble",
+                "size": "mega",
+                "body": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "paddingAll": "10px",
+                    "spacing": "12px",
+                    "background": {
+                        "type": "linearGradient",
+                        "angle": "30deg",
+                        "startColor": "#2E8B57",
+                        "centerColor": "#0000FF",
+                        "endColor": "#A52A2A"
+                    },
+                    "contents": [
+                        {
+                            "type": "text",
+                            "text": "🪙แตกหนักที่สุด🪙",
+                            "weight": "bold",
+                            "size": "xl",
+                            "align": "center",
+                            "color": "#FFFFFF"
+                        },
+                        {
+                            "type": "image",
+                            "url": "https://cdn-icons-png.flaticon.com/512/1055/1055687.png",
+                            "size": "4xl"
+                        },
+                        {
+                            "type": "text",
+                            "text": "เกมส์สถิติแตกหนักที่สุดคำนวนทุกวัน\nถอนหนักไม่เกรงใจแอดมินเลย",
+                            "size": "md",
+                            "align": "center",
+                            "wrap": True,
+                            "color": "#FFF0F5"
+                        },
                         {
                             "type": "box",
-                            "layout": "horizontal",
+                            "layout": "vertical",
+                            "margin": "md",
+                            "cornerRadius": "20px",
+                            "backgroundColor": "#FFFFFF",
                             "paddingAll": "10px",
-                            "cornerRadius": "12px",
-                            "backgroundColor": "#0000FF",
-                            "borderWidth": "2px",
-                            "borderColor": "#00FF7F",
-                            "shadow": "md",
                             "action": {
                                 "type": "message",
                                 "text": "สถิติแตกหนักที่สุด"
@@ -128,25 +188,63 @@ def build_feature_menu():
                             "contents": [
                                 {
                                     "type": "text",
-                                    "text": "💥 แตกหนักจัดเต็ม 💥",
+                                    "text": "คลิกขอเกมส์เลย",
                                     "weight": "bold",
-                                    "color": "#FFFFFF",
-                                    "size": "md",
-                                    "align": "center"
+                                    "align": "center",
+                                    "color": "#000080",
+                                    "size": "lg"
                                 }
                             ]
-                        },
+                        }
+                    ]
+                }
+            },
 
-                        # 🎯 แนะนำ
+            # 🎯 แนะนำ
+            {
+                "type": "bubble",
+                "size": "mega",
+                "body": {
+                    "type": "box",
+                    "layout": "vertical",
+                    "paddingAll": "10px",
+                    "spacing": "12px",
+                    "background": {
+                        "type": "linearGradient",
+                        "angle": "30deg",
+                        "startColor": "#2E8B57",
+                        "centerColor": "#0000FF",
+                        "endColor": "#A52A2A"
+                    },
+                    "contents": [
+                        {
+                            "type": "text",
+                            "text": "🌟แนะนำเฉพาะฉัน🌟",
+                            "weight": "bold",
+                            "size": "xl",
+                            "align": "center",
+                            "color": "#FFFFFF"
+                        },
+                        {
+                            "type": "image",
+                            "url": "https://cdn-icons-png.flaticon.com/512/1055/1055687.png",
+                            "size": "4xl"
+                        },
+                        {
+                            "type": "text",
+                            "text": "เกมส์เด็ดที่คัดมาเพื่อคุณโดยเฉพาะ\nอย่ารอช้ารีบตัดสินใจแล้วคลิกเลย",
+                            "size": "md",
+                            "align": "center",
+                            "wrap": True,
+                            "color": "#FFF0F5"
+                        },
                         {
                             "type": "box",
-                            "layout": "horizontal",
+                            "layout": "vertical",
+                            "margin": "md",
+                            "cornerRadius": "20px",
+                            "backgroundColor": "#FFFFFF",
                             "paddingAll": "10px",
-                            "cornerRadius": "12px",
-                            "backgroundColor": "#003333",
-                            "borderWidth": "2px",
-                            "borderColor": "#00FF7F",
-                            "shadow": "md",
                             "action": {
                                 "type": "message",
                                 "text": "โบนัสไทม์เฉพาะฉันเท่านั้น"
@@ -154,19 +252,17 @@ def build_feature_menu():
                             "contents": [
                                 {
                                     "type": "text",
-                                    "text": "🎯 แนะนำสำหรับคุณ 🎯",
+                                    "text": "คลิกขอเกมส์เลย",
                                     "weight": "bold",
-                                    "color": "#FFFFFF",
-                                    "size": "md",
-                                    "align": "center"
+                                    "align": "center",
+                                    "color": "#000080",
+                                    "size": "lg"
                                 }
                             ]
                         }
-
                     ]
                 }
-            ]
-        }
-    }
+            }
 
-    return bubble
+        ]
+    }
