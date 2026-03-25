@@ -91,6 +91,7 @@ def handle_message(event):
     user_last_request[user_id] = now
 
     print("📩 ได้รับข้อความ:", text)
+    print("📦 RAW:", repr(text))
 
     with ApiClient(configuration) as api_client:
 
@@ -134,7 +135,7 @@ def handle_message(event):
             return
 
         # ===== FEATURE: ถอนเยอะ =====
-        elif text == "ถอนเยอะสุดช่วงเวลานี้":
+        elif "เกมส์จ่ายบ่อยถอนไม่พัก" in text:
         
             rows = get_games()
             picks = pick_smart_random_games(rows, user_id, 5)
@@ -167,7 +168,7 @@ def handle_message(event):
         
         
         # ===== FEATURE: แตกหนัก =====
-        elif text == "สถิติแตกหนักที่สุด":
+        elif "สถิติแตกหนักที่สุด" in text:
         
             rows = get_games()
             picks = pick_smart_random_games(rows, user_id, 5)
@@ -200,7 +201,7 @@ def handle_message(event):
         
         
         # ===== FEATURE: แนะนำ =====
-        elif text == "โบนัสไทม์เฉพาะฉันเท่านั้น":
+        elif "โบนัสไทม์เฉพาะฉันเท่านั้น" in text:
         
             rows = get_games()
             picks = pick_smart_random_games(rows, user_id, 5)
