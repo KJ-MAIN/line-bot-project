@@ -21,7 +21,7 @@ def build_profile_bubble(mode="default"):
     
     elif mode == "recommend":
         title = "🎯 แนะนำสำหรับคุณ"
-        middle_text = "🎁ระบบเลือกให้คุณโดยเฉพาะ (ห้ามพลาด)🎁"
+        middle_text = "🎁 ระบบเลือกให้คุณโดยเฉพาะ 🎁"
     
     else:
         title = "🔥 โบนัสกำลังมา 🔥"
