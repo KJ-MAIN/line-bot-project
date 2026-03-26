@@ -87,20 +87,46 @@ def get_games_by_provider(provider):
 
     return _games_by_provider.get(provider, [])
     
-def save_user(user_id, line_name, picture_url):
+def save_user(user_id, line_name, picture_url, text):
+
+    from datetime import datetime
+
+    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
     try:
         rows = users_ws.get_all_records()
     except:
         rows = []
 
-    # 🔍 หา user เดิม
-    for row in rows:
-        if row.get("user_id") == user_id:
-            return  # มีแล้ว ไม่ต้องเพิ่ม
+    username = None
 
-    # ➕ เพิ่มใหม่
+    # 🔥 ตรวจว่า user พิมพ์ nv ไหม
+    if text.startswith("nv"):
+        username = text
+
+    # 🔍 หา user เดิม
+    for i, row in enumerate(rows):
+
+        if row.get("user_id") == user_id:
+
+            # ✅ update last_active
+            users_ws.update_cell(i+2, 5, now)
+
+            # ✅ update last_action
+            users_ws.update_cell(i+2, 6, text)
+
+            # ✅ update username (ถ้ามี nv)
+            if username:
+                users_ws.update_cell(i+2, 4, username)
+
+            return
+
+    # ➕ user ใหม่
     users_ws.append_row([
         user_id,
         line_name,
-        picture_url
+        picture_url,
+        username or "",
+        now,
+        text
     ])

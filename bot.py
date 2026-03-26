@@ -105,7 +105,7 @@ def handle_message(event):
         picture_url = profile.picture_url
 
         # ===== save ลง Google Sheets =====
-        save_user(user_id, line_name, picture_url)
+        save_user(user_id, line_name, picture_url, text)
 
         # ===== เมนูหลัก =====
         if text == "ขอโบนัสไทม์":
