@@ -86,6 +86,20 @@ def get_games_by_provider(provider):
         get_games()
 
     return _games_by_provider.get(provider, [])
+
+
+def get_user(user_id):
+    try:
+        rows = users_ws.get_all_records()
+    except:
+        return None
+
+    for row in rows:
+        if row.get("user_id") == user_id:
+            return row
+
+    return None
+
     
 def save_user(user_id, line_name, picture_url, text):
 

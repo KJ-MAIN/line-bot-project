@@ -10,7 +10,7 @@ from linebot.v3.messaging import (
     FlexContainer
 )
 
-from services.sheets_service import save_user
+
 import random
 import os
 import json
@@ -21,6 +21,7 @@ from builders.game_flex import build_game_bubble, PLAY_BUTTON_IMAGES
 from builders.provider_menu import build_provider_carousel
 from builders.profile_card import build_profile_bubble
 from builders.feature_menu import build_feature_menu
+from services.sheets_service import save_user, get_user
 
 app = Flask(__name__)
 
@@ -78,9 +79,15 @@ def pick_smart_random_games(rows, user_id, n=5):
 @handler.add(MessageEvent, message=TextMessageContent)
 def handle_message(event):
 
+    # =========================
+    # ✅ 1. รับข้อความ
+    # =========================
     text = (event.message.text or "").strip().lower()
     user_id = event.source.user_id
 
+    # =========================
+    # ✅ 2. cooldown กัน spam
+    # =========================
     now = time.time()
     last_time = user_last_request.get(user_id, 0)
 
@@ -90,24 +97,72 @@ def handle_message(event):
 
     user_last_request[user_id] = now
 
-    # 👇 เปิด API ตรงนี้
+    # =========================
+    # ✅ 3. เปิด LINE API
+    # =========================
     with ApiClient(configuration) as api_client:
 
-        api = MessagingApi(api_client)   # 🔥 สำคัญมาก
+        api = MessagingApi(api_client)
 
         print("📩 ได้รับข้อความ:", text)
-        print("📦 RAW:", repr(text))
 
-        # ===== ดึงข้อมูล user =====
+        # =========================
+        # ✅ 4. ดึง profile
+        # =========================
         profile = api.get_profile(user_id)
-
         line_name = profile.display_name
         picture_url = profile.picture_url
 
-        # ===== save ลง Google Sheets =====
+        # =========================
+        # ✅ 5. save user
+        # =========================
         save_user(user_id, line_name, picture_url, text)
 
-        # ===== เมนูหลัก =====
+        # =========================
+        # ✅ 6. ดึง user จาก sheet
+        # =========================
+        user = get_user(user_id)
+
+        # =========================
+        # 🔥 BLOCK USER (ต้องมี username ก่อน)
+        # =========================
+        if not user or not (user.get("username") or "").strip():
+
+            if not text.startswith("nv"):
+
+                api.reply_message(
+                    ReplyMessageRequest(
+                        reply_token=event.reply_token,
+                        messages=[
+                            TextMessage(
+                                text="⚠️ กรุณาส่งยูสก่อนใช้งาน\n\nตัวอย่าง: nv123456"
+                            )
+                        ]
+                    )
+                )
+                return
+
+        # 🔥 ถ้าส่ง nv → save แล้วส่งเมนูทันที
+        if text.startswith("nv"):
+        
+            flex = build_feature_menu()
+        
+            api.reply_message(
+                ReplyMessageRequest(
+                    reply_token=event.reply_token,
+                    messages=[
+                        FlexMessage(
+                            alt_text="เลือกประเภทที่ต้องารค้นหา",
+                            contents=FlexContainer.from_dict(flex)
+                        )
+                    ]
+                )
+            )
+            return
+    
+        # =========================
+        # 🎮 เมนูหลัก
+        # =========================
         if text == "ขอโบนัสไทม์":
 
             flex = build_feature_menu()
@@ -125,7 +180,9 @@ def handle_message(event):
             )
             return
 
-        # ===== เมนูค่าย =====
+        # =========================
+        # 🎮 เมนูค่าย
+        # =========================
         elif text == "ขอเมนูค่ายเกมส์":
 
             flex = build_provider_carousel()
@@ -143,7 +200,9 @@ def handle_message(event):
             )
             return
 
-        # ===== ถอนเยอะ =====
+        # =========================
+        # 💰 ถอนเยอะ
+        # =========================
         elif "เกมส์จ่ายบ่อยถอนไม่พัก" in text:
 
             rows = get_games()
@@ -171,7 +230,9 @@ def handle_message(event):
             )
             return
 
-        # ===== แตกหนัก =====
+        # =========================
+        # 💥 แตกหนัก
+        # =========================
         elif "สถิติแตกหนักที่สุด" in text:
 
             rows = get_games()
@@ -199,7 +260,9 @@ def handle_message(event):
             )
             return
 
-        # ===== แนะนำ =====
+        # =========================
+        # 🎯 แนะนำ
+        # =========================
         elif "โบนัสไทม์เฉพาะฉันเท่านั้น" in text:
 
             rows = get_games()
