@@ -290,6 +290,63 @@ def handle_message(event):
             )
             return
 
+# =========================
+# 🎰 โบนัสไทม์ (สำคัญมาก)
+# =========================
+elif text.startswith("โบนัสไทม์"):
+
+    rows = get_games()
+
+    parts = text.split()
+    provider = None
+    show_provider = True
+
+    if len(parts) > 1:
+        provider = " ".join(parts[1:]).upper()
+        show_provider = False
+
+    if provider:
+        rows = [
+            g for g in rows
+            if g.get("provider", "").strip().upper() == provider
+        ]
+
+    if not rows:
+        api.reply_message(
+            ReplyMessageRequest(
+                reply_token=event.reply_token,
+                messages=[TextMessage(text="❌ ยังไม่มีเกมในระบบ")]
+            )
+        )
+        return
+
+    picks = pick_smart_random_games(rows, user_id, 5)
+
+    bubbles = [build_profile_bubble()]
+
+    buttons = random.sample(PLAY_BUTTON_IMAGES, len(picks))
+
+    for g, btn in zip(picks, buttons):
+        bubbles.append(build_game_bubble(g, btn, show_provider))
+
+    flex_json = {
+        "type": "carousel",
+        "contents": bubbles
+    }
+
+    api.reply_message(
+        ReplyMessageRequest(
+            reply_token=event.reply_token,
+            messages=[
+                FlexMessage(
+                    alt_text="โบนัสไทม์ที่คุณขอค่ะ",
+                    contents=FlexContainer.from_dict(flex_json)
+                )
+            ]
+        )
+    )
+    return          
+
 
 # ===== START SERVER =====
 if __name__ == "__main__":
