@@ -1,4 +1,4 @@
-users_ws = gc.open(config.SPREADSHEET_NAME).worksheet("users")
+
 
 import os
 import json
@@ -24,9 +24,9 @@ creds = Credentials.from_service_account_info(
 
 gc = gspread.authorize(creds)
 
-
 # ===== worksheets =====
 games_ws = gc.open(config.SPREADSHEET_NAME).worksheet("games")
+users_ws = gc.open(config.SPREADSHEET_NAME).worksheet("users")
 
 
 # ===== CACHE =====
@@ -87,38 +87,20 @@ def get_games_by_provider(provider):
 
     return _games_by_provider.get(provider, [])
     
-def save_user(user_id, line_name, username=None, action=None):
-    from datetime import datetime
-
-    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-
+def save_user(user_id, line_name, picture_url):
     try:
         rows = users_ws.get_all_records()
     except:
         rows = []
 
     # 🔍 หา user เดิม
-    for i, row in enumerate(rows):
+    for row in rows:
         if row.get("user_id") == user_id:
+            return  # มีแล้ว ไม่ต้องเพิ่ม
 
-            # update last_active
-            users_ws.update_cell(i+2, 4, now)
-
-            # update action
-            if action:
-                users_ws.update_cell(i+2, 5, action)
-
-            # update username
-            if username:
-                users_ws.update_cell(i+2, 3, username)
-
-            return
-
-    # ➕ ถ้ายังไม่มี → เพิ่มใหม่
+    # ➕ เพิ่มใหม่
     users_ws.append_row([
         user_id,
         line_name,
-        username or "",
-        now,
-        action or ""
+        picture_url
     ])
