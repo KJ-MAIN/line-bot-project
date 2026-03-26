@@ -293,7 +293,7 @@ def handle_message(event):
 # =========================
 # 🎰 โบนัสไทม์ (สำคัญมาก)
 # =========================
-elif text.startswith("โบนัสไทม์"):
+if text.startswith("โบนัสไทม์"):
 
     rows = get_games()
 
