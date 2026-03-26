@@ -10,6 +10,7 @@ from linebot.v3.messaging import (
     FlexContainer
 )
 
+from services.sheets_service import save_user
 import random
 import os
 import json
@@ -78,31 +79,39 @@ def pick_smart_random_games(rows, user_id, n=5):
 def handle_message(event):
 
     text = (event.message.text or "").strip().lower()
-    
     user_id = event.source.user_id
+
     now = time.time()
-    
     last_time = user_last_request.get(user_id, 0)
-    
+
     if now - last_time < COOLDOWN:
         print("⏳ User spam blocked")
         return
-    
+
     user_last_request[user_id] = now
 
-    print("📩 ได้รับข้อความ:", text)
-    print("📦 RAW:", repr(text))
-
+    # 👇 เปิด API ตรงนี้
     with ApiClient(configuration) as api_client:
 
-        api = MessagingApi(api_client)
+        api = MessagingApi(api_client)   # 🔥 สำคัญมาก
+
+        print("📩 ได้รับข้อความ:", text)
+        print("📦 RAW:", repr(text))
+
+        # ===== ดึงข้อมูล user =====
+        profile = api.get_profile(user_id)
+
+        line_name = profile.display_name
+        picture_url = profile.picture_url
+
+        # ===== save ลง Google Sheets =====
+        save_user(user_id, line_name, picture_url)
 
         # ===== เมนูหลัก =====
-
         if text == "ขอโบนัสไทม์":
-        
-            flex = build_feature_menu()  # 👈 สร้างใหม่
-        
+
+            flex = build_feature_menu()
+
             api.reply_message(
                 ReplyMessageRequest(
                     reply_token=event.reply_token,
@@ -115,12 +124,12 @@ def handle_message(event):
                 )
             )
             return
-            
-        # ===== FEATURE: เมนูค่าย (ของเดิม) =====
+
+        # ===== เมนูค่าย =====
         elif text == "ขอเมนูค่ายเกมส์":
-        
+
             flex = build_provider_carousel()
-        
+
             api.reply_message(
                 ReplyMessageRequest(
                     reply_token=event.reply_token,
@@ -134,25 +143,21 @@ def handle_message(event):
             )
             return
 
-        # ===== FEATURE: ถอนเยอะ =====
+        # ===== ถอนเยอะ =====
         elif "เกมส์จ่ายบ่อยถอนไม่พัก" in text:
-        
+
             rows = get_games()
             picks = pick_smart_random_games(rows, user_id, 5)
-        
-            bubbles = []
-            bubbles.append(build_profile_bubble("withdraw"))
-        
+
+            bubbles = [build_profile_bubble("withdraw")]
+
             buttons = random.sample(PLAY_BUTTON_IMAGES, len(picks))
-        
+
             for g, btn in zip(picks, buttons):
                 bubbles.append(build_game_bubble(g, btn, True))
-        
-            flex_json = {
-                "type": "carousel",
-                "contents": bubbles
-            }
-        
+
+            flex_json = {"type": "carousel", "contents": bubbles}
+
             api.reply_message(
                 ReplyMessageRequest(
                     reply_token=event.reply_token,
@@ -165,27 +170,22 @@ def handle_message(event):
                 )
             )
             return
-        
-        
-        # ===== FEATURE: แตกหนัก =====
+
+        # ===== แตกหนัก =====
         elif "สถิติแตกหนักที่สุด" in text:
-        
+
             rows = get_games()
             picks = pick_smart_random_games(rows, user_id, 5)
-        
-            bubbles = []
-            bubbles.append(build_profile_bubble("heavy"))
-        
+
+            bubbles = [build_profile_bubble("heavy")]
+
             buttons = random.sample(PLAY_BUTTON_IMAGES, len(picks))
-        
+
             for g, btn in zip(picks, buttons):
                 bubbles.append(build_game_bubble(g, btn, True))
-        
-            flex_json = {
-                "type": "carousel",
-                "contents": bubbles
-            }
-        
+
+            flex_json = {"type": "carousel", "contents": bubbles}
+
             api.reply_message(
                 ReplyMessageRequest(
                     reply_token=event.reply_token,
@@ -198,27 +198,22 @@ def handle_message(event):
                 )
             )
             return
-        
-        
-        # ===== FEATURE: แนะนำ =====
+
+        # ===== แนะนำ =====
         elif "โบนัสไทม์เฉพาะฉันเท่านั้น" in text:
-        
+
             rows = get_games()
             picks = pick_smart_random_games(rows, user_id, 5)
-        
-            bubbles = []
-            bubbles.append(build_profile_bubble("recommend"))
-        
+
+            bubbles = [build_profile_bubble("recommend")]
+
             buttons = random.sample(PLAY_BUTTON_IMAGES, len(picks))
-        
+
             for g, btn in zip(picks, buttons):
                 bubbles.append(build_game_bubble(g, btn, True))
-        
-            flex_json = {
-                "type": "carousel",
-                "contents": bubbles
-            }
-        
+
+            flex_json = {"type": "carousel", "contents": bubbles}
+
             api.reply_message(
                 ReplyMessageRequest(
                     reply_token=event.reply_token,
@@ -230,77 +225,6 @@ def handle_message(event):
                     ]
                 )
             )
-            return           
-
-
-
-        # ===== โบนัสไทม์ =====
-
-        if text.startswith("โบนัสไทม์"):
-
-            rows = get_games()
-
-            # แยกชื่อค่าย
-            parts = text.split()
-
-            provider = None
-            
-            show_provider = True
-            
-            if len(parts) > 1:
-                provider = " ".join(parts[1:]).upper()
-                show_provider = False   # 🔥 เลือกค่าย → ไม่ต้องโชว์โลโก้
-
-            # กรองเกมตามค่าย
-            if provider:
-                rows = [
-                    g for g in rows
-                    if g.get("provider", "").strip().upper() == provider
-                ]
-
-            if not rows:
-
-                api.reply_message(
-                    ReplyMessageRequest(
-                        reply_token=event.reply_token,
-                        messages=[TextMessage(text="❌ ยังไม่มีเกมในระบบ")]
-                    )
-                )
-
-                return
-
-            picks = pick_smart_random_games(rows, user_id, 5)
-            
-            bubbles = []
-            
-            bubbles.append(build_profile_bubble())
-            
-            # สุ่มรูปปุ่มแบบไม่ซ้ำ
-            buttons = random.sample(PLAY_BUTTON_IMAGES, len(picks))
-            
-            for g, btn in zip(picks, buttons):
-            
-                bubble = build_game_bubble(g, btn, show_provider)
-            
-                bubbles.append(bubble)
-
-            flex_json = {
-                "type": "carousel",
-                "contents": bubbles
-            }
-
-            api.reply_message(
-                ReplyMessageRequest(
-                    reply_token=event.reply_token,
-                    messages=[
-                        FlexMessage(
-                            alt_text="โบนัสไทม์",
-                            contents=FlexContainer.from_dict(flex_json)
-                        )
-                    ]
-                )
-            )
-
             return
 
 

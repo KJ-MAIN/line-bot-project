@@ -1,3 +1,5 @@
+users_ws = gc.open(config.SPREADSHEET_NAME).worksheet("users")
+
 import os
 import json
 import gspread
@@ -84,3 +86,39 @@ def get_games_by_provider(provider):
         get_games()
 
     return _games_by_provider.get(provider, [])
+    
+def save_user(user_id, line_name, username=None, action=None):
+    from datetime import datetime
+
+    now = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+
+    try:
+        rows = users_ws.get_all_records()
+    except:
+        rows = []
+
+    # 🔍 หา user เดิม
+    for i, row in enumerate(rows):
+        if row.get("user_id") == user_id:
+
+            # update last_active
+            users_ws.update_cell(i+2, 4, now)
+
+            # update action
+            if action:
+                users_ws.update_cell(i+2, 5, action)
+
+            # update username
+            if username:
+                users_ws.update_cell(i+2, 3, username)
+
+            return
+
+    # ➕ ถ้ายังไม่มี → เพิ่มใหม่
+    users_ws.append_row([
+        user_id,
+        line_name,
+        username or "",
+        now,
+        action or ""
+    ])
