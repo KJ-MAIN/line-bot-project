@@ -152,7 +152,7 @@ def handle_message(event):
                     reply_token=event.reply_token,
                     messages=[
                         FlexMessage(
-                            alt_text="เลือกประเภทที่ต้องารค้นหา",
+                            alt_text="เลือกประเภทที่ต้องการค้นหา",
                             contents=FlexContainer.from_dict(flex)
                         )
                     ]
