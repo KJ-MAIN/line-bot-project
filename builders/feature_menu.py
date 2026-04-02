@@ -33,7 +33,7 @@ def build_feature_menu():
                         {
                             "type": "image",
                             "url": "https://ik.imagekit.io/KJAY/Option/Option1.png",
-                            "size": "4xl",
+                            "size": "full",
                             "aspectRatio": "1:1",
                             "aspectMode": "cover"
                         },
@@ -51,7 +51,7 @@ def build_feature_menu():
                             "margin": "md",
                             "cornerRadius": "20px",
                             "backgroundColor": "#FFFFFF",
-                            "paddingAll": "10px",
+                            "paddingAll": "0px",
                             "action": {
                                 "type": "message",
                                 "text": "ขอเมนูค่ายเกมส์"
@@ -100,7 +100,7 @@ def build_feature_menu():
                         {
                             "type": "image",
                             "url": "https://ik.imagekit.io/KJAY/Option/Option2.png",
-                            "size": "4xl",
+                            "size": "full",
                             "aspectRatio": "1:1",
                             "aspectMode": "cover"
                         },
@@ -118,7 +118,7 @@ def build_feature_menu():
                             "margin": "md",
                             "cornerRadius": "20px",
                             "backgroundColor": "#FFFFFF",
-                            "paddingAll": "10px",
+                            "paddingAll": "0px",
                             "action": {
                                 "type": "message",
                                 "text": "เกมส์จ่ายบ่อยถอนไม่พัก"
@@ -166,7 +166,7 @@ def build_feature_menu():
                         {
                             "type": "image",
                             "url": "https://ik.imagekit.io/KJAY/Option/Option3.png",
-                            "size": "4xl",
+                            "size": "full",
                             "aspectRatio": "1:1",
                             "aspectMode": "cover"
                         },
@@ -184,7 +184,7 @@ def build_feature_menu():
                             "margin": "md",
                             "cornerRadius": "20px",
                             "backgroundColor": "#FFFFFF",
-                            "paddingAll": "10px",
+                            "paddingAll": "0px",
                             "action": {
                                 "type": "message",
                                 "text": "สถิติแตกหนักที่สุด"
@@ -232,7 +232,7 @@ def build_feature_menu():
                         {
                             "type": "image",
                             "url": "https://ik.imagekit.io/KJAY/Option/Option4.png",
-                            "size": "4xl",
+                            "size": "full",
                             "aspectRatio": "1:1",
                             "aspectMode": "cover"
                         },
@@ -250,7 +250,7 @@ def build_feature_menu():
                             "margin": "md",
                             "cornerRadius": "20px",
                             "backgroundColor": "#FFFFFF",
-                            "paddingAll": "10px",
+                            "paddingAll": "0px",
                             "action": {
                                 "type": "message",
                                 "text": "โบนัสไทม์เฉพาะฉันเท่านั้น"
