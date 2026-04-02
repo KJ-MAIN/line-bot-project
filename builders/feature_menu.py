@@ -31,7 +31,7 @@ def build_feature_menu():
                                 "type": "message",
                                 "text": "ขอเมนูค่ายเกมส์"
                             }
-                        },                    
+                        },
                         {
                             "type": "text",
                             "text": "🎮 เลือกค่ายเกม 🎮",
@@ -48,8 +48,6 @@ def build_feature_menu():
                             "align": "center",
                             "wrap": True,
                             "color": "#FFF0F5"
-                        }
-                            ]
                         }
                     ]
                 }
@@ -100,8 +98,6 @@ def build_feature_menu():
                             "wrap": True,
                             "color": "#FFF0F5"
                         }
-                            ]
-                        }
                     ]
                 }
             },
@@ -150,8 +146,6 @@ def build_feature_menu():
                             "wrap": True,
                             "color": "#FFF0F5"
                         }
-                            ]
-                        }
                     ]
                 }
             },
@@ -199,8 +193,6 @@ def build_feature_menu():
                             "align": "center",
                             "wrap": True,
                             "color": "#FFF0F5"
-                        }
-                            ]
                         }
                     ]
                 }
