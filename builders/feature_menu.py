@@ -16,9 +16,9 @@ def build_feature_menu():
                     "background": {
                         "type": "linearGradient",
                         "angle": "30deg",
-                        "startColor": "#2E8B57",
-                        "centerColor": "#0000FF",
-                        "endColor": "#A52A2A"
+                        "startColor": "#0F2027",
+                        "centerColor": "#203A43",
+                        "endColor": "#2C5364"
                     },
                     "contents": [
                         {
@@ -83,9 +83,9 @@ def build_feature_menu():
                     "background": {
                         "type": "linearGradient",
                         "angle": "30deg",
-                        "startColor": "#2E8B57",
-                        "centerColor": "#0000FF",
-                        "endColor": "#A52A2A"
+                        "startColor": "#0F2027",
+                        "centerColor": "#203A43",
+                        "endColor": "#2C5364"
                     },
                     "contents": [
                         {
@@ -150,9 +150,9 @@ def build_feature_menu():
                     "background": {
                         "type": "linearGradient",
                         "angle": "30deg",
-                        "startColor": "#2E8B57",
-                        "centerColor": "#0000FF",
-                        "endColor": "#A52A2A"
+                        "startColor": "#0F2027",
+                        "centerColor": "#203A43",
+                        "endColor": "#2C5364"
                     },
                     "contents": [
                         {
@@ -216,9 +216,9 @@ def build_feature_menu():
                     "background": {
                         "type": "linearGradient",
                         "angle": "30deg",
-                        "startColor": "#2E8B57",
-                        "centerColor": "#0000FF",
-                        "endColor": "#A52A2A"
+                        "startColor": "#0F2027",
+                        "centerColor": "#203A43",
+                        "endColor": "#2C5364"
                     },
                     "contents": [
                         {
