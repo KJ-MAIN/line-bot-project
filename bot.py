@@ -75,6 +75,19 @@ def pick_smart_random_games(rows, user_id, n=5):
 
     return picks
 
+def handle_admin_command(api, event, text, user_id):
+    parts = text.split()
+
+    if parts[0] == "broadcast":
+        ...
+        return True
+
+    elif parts[0] == "send":
+        ...
+        return True
+
+    return False
+
 # =========================
 @handler.add(MessageEvent, message=TextMessageContent)
 def handle_message(event):

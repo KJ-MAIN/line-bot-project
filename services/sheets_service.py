@@ -1,7 +1,6 @@
 
 
 import os
-import json
 import gspread
 import time
 from google.oauth2.service_account import Credentials
@@ -14,11 +13,16 @@ SCOPES = [
     "https://www.googleapis.com/auth/drive"
 ]
 
-# 🔥 โหลด JSON จาก ENV
-service_account_info = json.loads(os.getenv("SERVICE_ACCOUNT_JSON"))
 
-creds = Credentials.from_service_account_info(
-    service_account_info,
+# =========================
+# 🔥 GOOGLE SHEETS CONNECT (SAFE VERSION)
+# =========================
+
+BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+CREDENTIAL_PATH = os.path.join(BASE_DIR, "credentials", "service-account.json")
+
+creds = Credentials.from_service_account_file(
+    CREDENTIAL_PATH,
     scopes=SCOPES
 )
 
@@ -144,3 +148,8 @@ def save_user(user_id, line_name, picture_url, text):
         now,
         text
     ])
+def get_all_users():
+    try:
+        return users_ws.get_all_records()
+    except:
+        return []
