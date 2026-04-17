@@ -1,39 +1,37 @@
-
-
 import os
+import json
 import gspread
 import time
+
 from google.oauth2.service_account import Credentials
-
 from config import config
-
 
 SCOPES = [
     "https://www.googleapis.com/auth/spreadsheets",
     "https://www.googleapis.com/auth/drive"
 ]
 
-
 # =========================
-# 🔥 GOOGLE SHEETS CONNECT (SAFE VERSION)
+# GOOGLE AUTH FROM RAILWAY ENV
 # =========================
+google_creds = json.loads(os.getenv("GOOGLE_CREDENTIALS_JSON"))
 
-BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-CREDENTIAL_PATH = os.path.join(BASE_DIR, "credentials", "service-account.json")
-
-creds = Credentials.from_service_account_file(
-    CREDENTIAL_PATH,
+creds = Credentials.from_service_account_info(
+    google_creds,
     scopes=SCOPES
 )
 
 gc = gspread.authorize(creds)
 
-# ===== worksheets =====
+# =========================
+# WORKSHEETS
+# =========================
 games_ws = gc.open(config.SPREADSHEET_NAME).worksheet("games")
 users_ws = gc.open(config.SPREADSHEET_NAME).worksheet("users")
 
-
-# ===== CACHE =====
+# =========================
+# CACHE
+# =========================
 _games_cache = None
 _games_by_provider = {}
 _cache_time = 0
